@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Viewer {
+  user: User!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  content: String!
+  author: User!
+  viewers: [Viewer!]
+}
+
+type Views {
+  post: Post
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  role: String!
+  createdPosts: [Post!]
+  viewedPosts: [Views!]
+}
+
+type Pagination {
+  limit: Float!
+  page: Float!
+  totalPages: Float!
+  offset: Float!
+}
+
+type FindAllUsersResponse {
+  users: [User!]
+  pagination: Pagination!
+}
+
+type FindAllPosts {
+  nextCursor: String
+  totalPages: Float!
+  posts: [Post!]
+}
+
+type Tokens {
+  refreshToken: String!
+  accessToken: String!
+}
+
+type Query {
+  users(findAllUserInput: FindAllUsersInput!): FindAllUsersResponse!
+  user(id: Int!): User
+  posts(findAllInput: FindAllInput!): FindAllPosts!
+  post(postId: Int!): Post!
+}
+
+input FindAllUsersInput {
+  page: Float
+  limit: Float
+}
+
+input FindAllInput {
+  cursor: String
+  limit: Float
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  createPost(createPostInput: CreatePostInput!): Post!
+  register(registerDto: RegisterDto!): Tokens!
+  login(loginDto: LoginDto!): Tokens!
+  refresh: Tokens!
+  logout: String!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  role: String!
+  password: String!
+}
+
+input CreatePostInput {
+  content: String!
+  title: String!
+}
+
+input RegisterDto {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input LoginDto {
+  email: String!
+  password: String!
+}

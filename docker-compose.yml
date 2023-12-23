@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: medium
+    restart: always
+
+  app:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    restart: always
+    environment:
+      JWT_ACCESS_SECRET: JWT_ACCESS_SECRET
+      JWT_REFRESH_SECRET: JWT_REFRESH_SECRET
+    command: sh -c 'npm run migrate-up && npm run start:prod'
